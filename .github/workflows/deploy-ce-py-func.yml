@@ -1,0 +1,29 @@
+name: Deploy Python Function to Code Engine
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  fn-py:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Deploy Python Function to Code Engine
+      uses: ibm/code-engine-github-action@v1
+      with:
+        api-key: ${{ secrets.IBM_IAM_API_KEY }}
+        resource-group: 'Default'
+        region: 'eu-de'
+        project: 'LR-PR-1'
+        entity: 'fn'
+        runtime: python-3.11
+        name: 'my-ce-py-fn'
+        build-source: '.'
+        cpu: 1
+        memory: 4G
